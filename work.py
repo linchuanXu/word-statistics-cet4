@@ -1,6 +1,4 @@
 #codeing=utf-8  
-
-
 import os  
 #引入读取的文件夹，文件，数据库 三个绝对地址  
 from settings import DIRS,DATABASE,FILES
