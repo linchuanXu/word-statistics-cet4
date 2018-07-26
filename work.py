@@ -3,8 +3,7 @@
 
 import os  
 #引入读取的文件夹，文件，数据库 三个绝对地址  
-from setting import DIRS,DATABASE,FILES  
-#数据分析  
+from settings import DIRS,DATABASE,FILES
 from analysis_book import AnlysisBook  
 from models_exp import db, NewWord, NewBook
 
@@ -45,7 +44,7 @@ class ParseFile:
         return f
 
     def parse(self, dirs, files):
-        # print(dirs, files)
+        print(dirs, files)
         f1 = self._parse_dirs(dirs)
         f2 = self._parse_files(files)
 
@@ -60,7 +59,7 @@ class Dt:
 
         created = os.path.exists(DATABASE)#数据库是否存在  
         if not created:  #制表
-            db.conect()
+            db.connect()
             db.create_tables([NewBook,NewWord])
 
 
@@ -70,6 +69,7 @@ if __name__=='__main__':
 
     #建表  
     dt = Dt()  
+
 
     s = ParseFile()
     res = s.parse(DIRS,FILES)#得到文件目录

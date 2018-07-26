@@ -11,10 +11,10 @@ from peewee import *
 
 db = SqliteDatabase(DATABASE) #创建数据库类
 
-class NewBook(model):
+class NewBook(Model):
     name = CharField()
-    total = IntegerField() #总词汇
-    is_analyzed = BooleanField()
+    total = IntegerField(default=0) #总词汇
+    is_analyzed = BooleanField(default=False)
     # reserved columns
     # 保留字段，便于之后扩展
     re1 = CharField(default='')

@@ -5,21 +5,24 @@ from collections import Counter #计数器
 import re #正则匹配
 
 #引入排除词汇
-from setting import exclude_list,NUMBERS
+from settings import exclude_list,NUMBERS
 #数据库操作 新书、新单词 class
 from models_exp import NewBook,NewWord
 
 class AnlysisBook():
     
     def new_book(self,path,words):#获取新书 加入数据库
-        bookname = path.split('/')[-1]
-        query_book = NewBook.select().where((NewBook.name == bookname) & (NewBook.is_analyzed == True))#比对数据库是否已分析过
+        bookname = path.split('\\')[-1]
+        query_book = NewBook.select().where((NewBook.name == bookname) & (NewBook.is_analyzed == True))
+        #比对数据库是否已分析过
         if query_book:
             return 
 
+        long = len(words)
+
         newbook = NewBook.create(
             name = bookname,
-            total = len(words)
+            total = long,
         )
         return newbook #数据库对象
     
@@ -27,8 +30,9 @@ class AnlysisBook():
         with open(filename,'r',encoding='utf-8')as f:
             raw_words = f.read()
         
-        words = re.findall('[a-z]+',raw_words.lower()) #大写字符为小写 #正则匹配所有连续字母
-        return　words
+        low_words = raw_words.lower()
+        words = re.findall('[a-z]+',low_words)
+        return words
 
     def _filter_words(self,raw_words,count=NUMBERS):#载入未处理的所有单词列表 和 默认count值
         new_words = []
@@ -69,8 +73,8 @@ class AnlysisBook():
         for i in lst_files:
             raw_words = self._open_file(i)#拿到总单词
             bookins = self.new_book(i, raw_words)#创建[数据库]书籍对象
-            filter_words = self._filter_words(raw_words)#总单词频率化处理 
-            self._insert_book(bookins, filter_words)#书籍对象添加数据
+            filter_words = self._filter_words(raw_words)#总单词频率化处理
+            self._insert_book_data(bookins, filter_words)#书籍对象添加数据
 
                             
 
