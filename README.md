@@ -1,4 +1,3 @@
-# vb_python of cet-4
 ## 程序介绍  
 这是一个单词频率统计程序 基于python3
 - 自动批量收集文件中的英语单词 txt (utf-8)
